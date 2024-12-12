@@ -1,12 +1,11 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.layers import Dense, Embedding, LSTM
-from keras.utils import pad_sequences
-
-
+import tensorflow as tf
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.preprocessing.text import Tokenizer # type: ignore
+from tensorflow.keras.layers import Dense, Embedding, LSTM # type: ignore
+from keras.utils import pad_sequences # type: ignore
 
 
 # Load the dataset from a CSV file
@@ -28,3 +27,15 @@ X_test = pad_sequences(tokenizer.texts_to_sequences(test_data["review"]), maxlen
 
 Y_train = train_data["sentiment"]
 Y_test = test_data["sentiment"]
+
+
+# Model creation	
+model = Sequential()
+model.add(Embedding(input_dim = 5000, output_dim = 128, input_length = 200))
+model.add(LSTM(128, dropout = 0.2, recurrent_dropout = 0.2))
+model.add(Dense(1, activation = "sigmoid"))
+
+
+# Model training
+model.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
+model.fit(X_train, Y_train, epochs = 5, batch_size = 64, validation_split = 0.2)
