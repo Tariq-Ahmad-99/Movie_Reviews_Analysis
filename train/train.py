@@ -4,7 +4,8 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.layers import Dense, Embedding, LSTM
-from tensorflow.keras.preprocessing import pad_sequences
+from keras.utils import pad_sequences
+
 
 
 
@@ -21,3 +22,9 @@ train_data, test_data = train_test_split( data, test_size = 0.2, random_state = 
 tokenizer = Tokenizer(num_words = 5000)
 tokenizer.fit_on_texts(train_data["review"])
 
+# but the data in pad sequences
+X_train = pad_sequences(tokenizer.texts_to_sequences(train_data["review"]), maxlen = 200)
+X_test = pad_sequences(tokenizer.texts_to_sequences(test_data["review"]), maxlen = 200)
+
+Y_train = train_data["sentiment"]
+Y_test = test_data["sentiment"]
