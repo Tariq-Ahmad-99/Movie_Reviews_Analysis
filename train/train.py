@@ -1,7 +1,7 @@
+import os
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
-import tensorflow as tf
+import joblib
 from tensorflow.keras.models import Sequential # type: ignore
 from tensorflow.keras.preprocessing.text import Tokenizer # type: ignore
 from tensorflow.keras.layers import Dense, Embedding, LSTM # type: ignore
@@ -39,3 +39,21 @@ model.add(Dense(1, activation = "sigmoid"))
 # Model training
 model.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
 model.fit(X_train, Y_train, epochs = 5, batch_size = 64, validation_split = 0.2)
+
+## save the model
+folder_name = 'model'
+
+# Create the folder if it doesn't exist
+if not os.path.exists(folder_name):
+    os.makedirs(folder_name)
+
+# Save the model as 'model.h5' in the 'model' folder
+model.save(os.path.join(folder_name, 'model.h5'))
+joblib.dump(tokenizer, "model/tokenizer.pkl")
+
+# Evaluate the model on the test dataset
+loss, accuracy = model.evaluate(X_test, Y_test)
+
+print("Test Loss:", loss)
+
+print("Test Accuracy:", accuracy)
