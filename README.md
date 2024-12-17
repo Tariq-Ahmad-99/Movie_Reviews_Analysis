@@ -4,6 +4,8 @@ This project implements a movie review sentiment classifier using a **LSTM-based
 
 ---
 
+https://github.com/user-attachments/assets/0ec166a3-3f4d-40fd-977a-d99e22d629a1
+
 ## **Table of Contents**
 
 1. [Overview](#overview)
