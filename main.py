@@ -1,6 +1,9 @@
+# Model Testing & Web Application
+
 import joblib
 from keras.utils import pad_sequences # type: ignore
 from tensorflow.keras.models import load_model # type: ignore
+import gradio as gr
 
 # Loading
 tokenizer = joblib.load("model/tokenizer.pkl")
@@ -16,4 +19,10 @@ def predictive_system(review):
 
 
 the_result = predictive_system("i couldn't complete the movie because its too hard to understand")
-print(the_result)
+
+
+# Simple web app using gradio
+
+title = "Movie Emotion Classifier"
+app = gr.Interface(fn = predictive_system, inputs="textbox", outputs="textbox", title=title)
+app.launch(share=True)
