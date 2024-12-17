@@ -24,7 +24,6 @@ tokenizer.fit_on_texts(train_data["review"])
 # but the data in pad sequences
 X_train = pad_sequences(tokenizer.texts_to_sequences(train_data["review"]), maxlen = 200)
 X_test = pad_sequences(tokenizer.texts_to_sequences(test_data["review"]), maxlen = 200)
-
 Y_train = train_data["sentiment"]
 Y_test = test_data["sentiment"]
 
@@ -40,14 +39,14 @@ model.add(Dense(1, activation = "sigmoid"))
 model.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
 model.fit(X_train, Y_train, epochs = 5, batch_size = 64, validation_split = 0.2)
 
-## save the model
+### save the model ###
 folder_name = 'model'
 
 # Create the folder if it doesn't exist
 if not os.path.exists(folder_name):
     os.makedirs(folder_name)
 
-# Save the model as 'model.h5' in the 'model' folder
+# Save the model
 model.save(os.path.join(folder_name, 'model.h5'))
 joblib.dump(tokenizer, "model/tokenizer.pkl")
 
